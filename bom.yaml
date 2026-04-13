@@ -1,0 +1,645 @@
+# Forkable Factory – Bill of Materials
+# Product: HeatMug USB-C (HM-001)
+# Derived from: spec.md rev 0.1
+# Schema: bom-schema.yaml
+
+product_id: "HM-001"
+revision: "0.1"
+date: "2026-04-12"
+status: draft
+currency: "EUR"
+notes: >
+  First BOM draft. Costs are estimates based on MOQ 2,000 units.
+  Supplier entries are representative — actual sourcing requires RFQs.
+
+assemblies:
+
+  # ─────────────────────────────────────────────
+  # ASSEMBLY 1: MUG
+  # ─────────────────────────────────────────────
+  - id: "ASM-MUG"
+    name: "Mug Assembly"
+    description: "Double-wall insulated ceramic mug with conductive base plate"
+    quantity: 1
+    components:
+
+      - id: "MUG-001"
+        name: "Ceramic mug body"
+        description: "Double-wall vacuum insulated stoneware mug, matte white (RAL 9003), D-handle"
+        category: mechanical
+        quantity: 1
+        unit: "pcs"
+        material: "Stoneware ceramic"
+        specifications:
+          capacity: "350 ml"
+          height: "105 mm"
+          outer_diameter: "85 mm"
+          wall_thickness: "8 mm"
+          colour: "Matte white RAL 9003"
+          insulation: "Double-wall vacuum"
+        supplier:
+          name: "Liling Xingyue Ceramics"
+          type: manufacturer
+          location: "China (Hunan)"
+        unit_cost: 2.80
+        moq: 2000
+        lead_time_days: 45
+        compliance:
+          - "EU Food Contact Reg (EC) 1935/2004"
+          - "RoHS"
+          - "REACH"
+        notes: "Requires food contact migration testing. Custom mould tooling ~€2,500 one-time."
+
+      - id: "MUG-002"
+        name: "Base plate"
+        description: "Stainless steel 304 conductive base plate, ground flat"
+        category: mechanical
+        quantity: 1
+        unit: "pcs"
+        material: "Stainless steel 304"
+        specifications:
+          diameter: "70 mm"
+          thickness: "2 mm"
+          flatness: "≤0.1 mm deviation"
+          finish: "Brushed"
+        supplier:
+          name: "Liling Xingyue Ceramics"
+          type: manufacturer
+          location: "China (Hunan)"
+          part_number: "BP-SS304-70"
+        unit_cost: 0.45
+        moq: 2000
+        lead_time_days: 45
+        compliance:
+          - "EU Food Contact Reg (EC) 1935/2004"
+          - "RoHS"
+          - "REACH"
+        notes: "Bonded to mug body during firing. Sourced from same manufacturer."
+
+      - id: "MUG-003"
+        name: "Food-safe adhesive"
+        description: "Silicone adhesive bonding steel base plate to ceramic body"
+        category: mechanical
+        quantity: 1
+        unit: "pcs"
+        material: "FDA/EU-compliant silicone adhesive"
+        specifications:
+          temperature_rating: "200°C"
+          cure_type: "RTV"
+        supplier:
+          name: "Dow Corning"
+          type: manufacturer
+          location: "Global"
+        unit_cost: 0.25
+        moq: 2000
+        lead_time_days: 14
+        compliance:
+          - "EU Food Contact Reg (EC) 1935/2004"
+        notes: "Applied during assembly at ceramics factory."
+
+  # ─────────────────────────────────────────────
+  # ASSEMBLY 2: BASE UNIT
+  # ─────────────────────────────────────────────
+  - id: "ASM-BASE"
+    name: "Base Unit Assembly"
+    description: "USB-C powered heating base with controller, sensor, and LED"
+    quantity: 1
+    components:
+
+      # --- Housing ---
+      - id: "BASE-001"
+        name: "Top housing"
+        description: "ABS injection moulded top shell with touch sensor area"
+        category: mechanical
+        quantity: 1
+        unit: "pcs"
+        material: "ABS (UL94 V-0)"
+        specifications:
+          diameter: "110 mm"
+          colour: "Matte white"
+          flame_rating: "UL94 V-0"
+        supplier:
+          name: "Shenzhen Jieyu Mould"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.85
+        moq: 2000
+        lead_time_days: 35
+        compliance:
+          - "RoHS"
+          - "REACH"
+          - "UL94 V-0"
+        notes: "Injection mould tooling ~€4,000 one-time."
+
+      - id: "BASE-002"
+        name: "Bottom housing"
+        description: "ABS injection moulded bottom shell"
+        category: mechanical
+        quantity: 1
+        unit: "pcs"
+        material: "ABS (UL94 V-0)"
+        specifications:
+          diameter: "110 mm"
+          colour: "Matte white"
+          flame_rating: "UL94 V-0"
+        supplier:
+          name: "Shenzhen Jieyu Mould"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.65
+        moq: 2000
+        lead_time_days: 35
+        compliance:
+          - "RoHS"
+          - "REACH"
+          - "UL94 V-0"
+
+      - id: "BASE-003"
+        name: "Aluminium heat spreader plate"
+        description: "Aluminium 6061 plate machined flat, thermal interface to mug"
+        category: mechanical
+        quantity: 1
+        unit: "pcs"
+        material: "Aluminium 6061-T6"
+        specifications:
+          diameter: "75 mm"
+          thickness: "3 mm"
+          flatness: "≤0.05 mm"
+        supplier:
+          name: "Shenzhen Jieyu Mould"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.40
+        moq: 2000
+        lead_time_days: 35
+        compliance:
+          - "RoHS"
+
+      - id: "BASE-004"
+        name: "Silicone rubber pad"
+        description: "Anti-slip silicone pad on top surface over aluminium plate"
+        category: mechanical
+        quantity: 1
+        unit: "pcs"
+        material: "Silicone rubber"
+        specifications:
+          diameter: "75 mm"
+          thickness: "1 mm"
+          shore_hardness: "40A"
+        supplier:
+          name: "Shenzhen Jieyu Mould"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.15
+        moq: 2000
+        lead_time_days: 35
+        compliance:
+          - "RoHS"
+          - "REACH"
+
+      - id: "BASE-005"
+        name: "Silicone feet"
+        description: "Anti-slip adhesive-backed silicone pads for base bottom"
+        category: mechanical
+        quantity: 4
+        unit: "pcs"
+        material: "Silicone rubber"
+        specifications:
+          diameter: "10 mm"
+          thickness: "2 mm"
+        supplier:
+          name: "Generic"
+          type: distributor
+          location: "China"
+        unit_cost: 0.02
+        moq: 10000
+        lead_time_days: 14
+        compliance:
+          - "RoHS"
+
+      # --- Electronics ---
+      - id: "BASE-010"
+        name: "PTC ceramic heater"
+        description: "Self-regulating PTC heating element, 20W"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        material: "Barium titanate PTC ceramic"
+        specifications:
+          power: "20W"
+          voltage: "12V"
+          max_surface_temp: "80°C"
+          dimensions: "35 x 35 x 3 mm"
+        supplier:
+          name: "DBK David + Baader"
+          type: manufacturer
+          location: "Germany"
+        unit_cost: 1.20
+        moq: 1000
+        lead_time_days: 28
+        compliance:
+          - "RoHS"
+          - "REACH"
+        alternatives:
+          - name: "Heatron PTC heater"
+            supplier: "Heatron Inc."
+            notes: "US-based alternative. Similar specs, higher MOQ."
+        notes: "Self-regulating – key safety feature. Max temp plateaus at Curie point."
+
+      - id: "BASE-011"
+        name: "PCB – main board"
+        description: "2-layer FR4 PCB with MCU, PD controller, driver, sensor interface"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        material: "FR4"
+        specifications:
+          layers: "2"
+          dimensions: "60 x 40 mm"
+          finish: "HASL lead-free"
+        supplier:
+          name: "JLCPCB"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.35
+        moq: 5
+        lead_time_days: 7
+        compliance:
+          - "RoHS"
+        notes: "PCB fab only. Assembly (SMT) quoted separately or bundled."
+
+      - id: "BASE-012"
+        name: "MCU – STM32G030F6P6"
+        description: "ARM Cortex-M0+ microcontroller, 32KB flash, 8KB RAM"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        specifications:
+          package: "TSSOP-20"
+          flash: "32 KB"
+          ram: "8 KB"
+          adc: "12-bit"
+          operating_voltage: "2.0–3.6V"
+        supplier:
+          name: "LCSC"
+          type: distributor
+          location: "China (Shenzhen)"
+          part_number: "C529330"
+        unit_cost: 0.55
+        moq: 1
+        lead_time_days: 3
+        compliance:
+          - "RoHS"
+        alternatives:
+          - name: "PY32F030F16P6"
+            supplier: "LCSC"
+            notes: "Pin-compatible, lower cost (~€0.15). Puya Semiconductor."
+
+      - id: "BASE-013"
+        name: "USB-C PD controller – FUSB302"
+        description: "Programmable USB Type-C PD controller"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        specifications:
+          package: "MLP-14 (3x3 mm)"
+          pd_revision: "2.0"
+          interface: "I2C"
+        supplier:
+          name: "LCSC"
+          type: distributor
+          location: "China (Shenzhen)"
+          part_number: "C2681568"
+        unit_cost: 0.80
+        moq: 1
+        lead_time_days: 3
+        compliance:
+          - "RoHS"
+        alternatives:
+          - name: "HUSB238"
+            supplier: "LCSC"
+            notes: "Hynetek. Simpler standalone PD sink. No I2C needed for fixed voltage."
+
+      - id: "BASE-014"
+        name: "NTC thermistor – 100kΩ"
+        description: "NTC temperature sensor, glass-encapsulated"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        specifications:
+          resistance_25c: "100 kΩ"
+          b_value: "3950 K"
+          tolerance: "±1%"
+          package: "Axial, glass bead"
+        supplier:
+          name: "LCSC"
+          type: distributor
+          location: "China (Shenzhen)"
+        unit_cost: 0.05
+        moq: 100
+        lead_time_days: 3
+        compliance:
+          - "RoHS"
+        notes: "Embedded in aluminium plate with thermal paste."
+
+      - id: "BASE-015"
+        name: "RGB LED – common anode"
+        description: "5mm through-hole RGB LED"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        specifications:
+          package: "5 mm through-hole"
+          type: "Common anode"
+          colours: "Red, Green, Blue"
+        supplier:
+          name: "LCSC"
+          type: distributor
+          location: "China (Shenzhen)"
+        unit_cost: 0.03
+        moq: 100
+        lead_time_days: 3
+        compliance:
+          - "RoHS"
+
+      - id: "BASE-016"
+        name: "Capacitive touch sensor IC"
+        description: "Single-channel capacitive touch controller"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        specifications:
+          channels: "1"
+          interface: "Digital output"
+          package: "SOT-23"
+        supplier:
+          name: "LCSC"
+          type: distributor
+          location: "China (Shenzhen)"
+        unit_cost: 0.08
+        moq: 100
+        lead_time_days: 3
+        compliance:
+          - "RoHS"
+        alternatives:
+          - name: "Direct MCU capacitive sensing"
+            supplier: "N/A"
+            notes: "STM32G030 supports touch sensing natively. Saves one IC."
+
+      - id: "BASE-017"
+        name: "Thermal fuse – 85°C"
+        description: "One-shot thermal cutoff, backup safety"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        specifications:
+          trip_temperature: "85°C"
+          rated_current: "5A"
+          rated_voltage: "250V"
+          type: "One-shot (non-resettable)"
+        supplier:
+          name: "LCSC"
+          type: distributor
+          location: "China (Shenzhen)"
+        unit_cost: 0.10
+        moq: 100
+        lead_time_days: 3
+        compliance:
+          - "RoHS"
+          - "EN 62368-1"
+        notes: "Critical safety component. Must be positioned between PTC and aluminium plate."
+
+      - id: "BASE-018"
+        name: "TVS diode array – USB-C ESD"
+        description: "ESD protection for USB-C data and power lines"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        specifications:
+          channels: "4"
+          clamp_voltage: "5.5V"
+          package: "SOT-553"
+        supplier:
+          name: "LCSC"
+          type: distributor
+          location: "China (Shenzhen)"
+        unit_cost: 0.06
+        moq: 100
+        lead_time_days: 3
+        compliance:
+          - "RoHS"
+
+      - id: "BASE-019"
+        name: "MOSFET – heater driver"
+        description: "N-channel MOSFET for PWM control of PTC heater"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        specifications:
+          type: "N-channel"
+          vds: "30V"
+          id_continuous: "6A"
+          rds_on: "25 mΩ"
+          package: "SOT-23"
+        supplier:
+          name: "LCSC"
+          type: distributor
+          location: "China (Shenzhen)"
+        unit_cost: 0.04
+        moq: 100
+        lead_time_days: 3
+        compliance:
+          - "RoHS"
+
+      - id: "BASE-020"
+        name: "Passive components (resistors, capacitors, inductors)"
+        description: "Bulk passives – decoupling caps, pull-ups, LED resistors, etc."
+        category: electrical
+        quantity: 1
+        unit: "set"
+        specifications:
+          estimated_count: "~25 components"
+          packages: "0402, 0603"
+        supplier:
+          name: "LCSC"
+          type: distributor
+          location: "China (Shenzhen)"
+        unit_cost: 0.15
+        moq: 100
+        lead_time_days: 3
+        compliance:
+          - "RoHS"
+        notes: "Priced as set. Detailed BOM breakout in PCB design phase."
+
+      - id: "BASE-021"
+        name: "USB-C cable – integrated"
+        description: "USB-C to USB-C cable with PD support, 1.2 m, integrated strain relief"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        specifications:
+          length: "1.2 m"
+          current_rating: "3A"
+          pd_support: "Yes (CC line wired)"
+          jacket: "TPE"
+        supplier:
+          name: "Shenzhen cable supplier"
+          type: manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.65
+        moq: 2000
+        lead_time_days: 21
+        compliance:
+          - "RoHS"
+          - "IEC 62368-1 Clause 4.6 (bend test)"
+        notes: "Soldered to PCB at factory. Non-detachable per spec CA-01."
+
+      - id: "BASE-022"
+        name: "SMT assembly"
+        description: "Surface mount assembly of PCB – pick and place + reflow"
+        category: electrical
+        quantity: 1
+        unit: "pcs"
+        supplier:
+          name: "JLCPCB"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.80
+        moq: 5
+        lead_time_days: 7
+        compliance: []
+        notes: "JLCPCB SMT assembly. Includes stencil, placement, reflow. Setup fee ~€8."
+
+      # --- Fasteners ---
+      - id: "BASE-030"
+        name: "Screws – housing assembly"
+        description: "M2x6 self-tapping screws for top/bottom housing"
+        category: fastener
+        quantity: 4
+        unit: "pcs"
+        material: "Stainless steel"
+        specifications:
+          thread: "M2"
+          length: "6 mm"
+          head: "Phillips pan"
+          type: "Self-tapping"
+        supplier:
+          name: "Generic"
+          type: distributor
+          location: "China"
+        unit_cost: 0.01
+        moq: 5000
+        lead_time_days: 7
+        compliance:
+          - "RoHS"
+
+  # ─────────────────────────────────────────────
+  # ASSEMBLY 3: PACKAGING
+  # ─────────────────────────────────────────────
+  - id: "ASM-PKG"
+    name: "Packaging Assembly"
+    description: "Retail packaging including box, insert, and documentation"
+    quantity: 1
+    components:
+
+      - id: "PKG-001"
+        name: "Retail box"
+        description: "Corrugated cardboard box, printed, FSC certified"
+        category: packaging
+        quantity: 1
+        unit: "pcs"
+        material: "E-flute corrugated cardboard"
+        specifications:
+          dimensions: "150 x 130 x 130 mm"
+          print: "4-colour offset"
+          certification: "FSC"
+        supplier:
+          name: "Shenzhen packaging supplier"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.55
+        moq: 2000
+        lead_time_days: 21
+        compliance:
+          - "EU Packaging Directive 94/62/EC"
+
+      - id: "PKG-002"
+        name: "Moulded pulp insert"
+        description: "Paper pulp protective insert for mug and base"
+        category: packaging
+        quantity: 1
+        unit: "pcs"
+        material: "Recycled paper pulp"
+        specifications:
+          cavities: "2 (mug + base)"
+        supplier:
+          name: "Shenzhen packaging supplier"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.40
+        moq: 2000
+        lead_time_days: 21
+        compliance:
+          - "EU Packaging Directive 94/62/EC"
+        notes: "No EPS/styrofoam per spec."
+
+      - id: "PKG-003"
+        name: "Quick start guide"
+        description: "Folded card with setup instructions, safety warnings, compliance marks"
+        category: document
+        quantity: 1
+        unit: "pcs"
+        material: "300 gsm coated card"
+        specifications:
+          size: "A6 folded to A7"
+          languages: "EN, DE, FR, ES, IT"
+          print: "2-colour"
+        supplier:
+          name: "Shenzhen packaging supplier"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.08
+        moq: 2000
+        lead_time_days: 14
+        compliance: []
+
+      - id: "PKG-004"
+        name: "CE / compliance label"
+        description: "Adhesive label for base unit – CE mark, WEEE, ratings"
+        category: label
+        quantity: 1
+        unit: "pcs"
+        material: "Polyester (weather-resistant)"
+        specifications:
+          size: "30 x 20 mm"
+          adhesive: "Permanent"
+          print: "Black on white"
+          content: "CE, WEEE, model, voltage, manufacturer"
+        supplier:
+          name: "Shenzhen packaging supplier"
+          type: contract_manufacturer
+          location: "China (Shenzhen)"
+        unit_cost: 0.02
+        moq: 5000
+        lead_time_days: 14
+        compliance:
+          - "LVD"
+          - "WEEE"
+
+# ─────────────────────────────────────────────
+# COST SUMMARY (corrected 2026-04-12 after agent review)
+# ─────────────────────────────────────────────
+# Assembly        | Subtotal
+# ASM-MUG         | €3.50  (body €2.80 + plate €0.45 + adhesive €0.25)
+# ASM-BASE        | €7.03  (housing €2.13 + electronics €4.86 + fasteners €0.04)
+# ASM-PKG         | €1.05  (box €0.55 + insert €0.40 + QSG €0.08 + label €0.02)
+# ─────────────────────────────────────────────
+# TOTAL COGS      | €11.58 (at MOQ 2,000 – below €13.20 target)
+#
+# Buffer: €1.62 for tooling amortisation, QC/inspection, freight, yield
+# loss, and missing components (voltage regulator, mug detection sensor,
+# EMC filters, VBUS TVS, thermal paste – est. ~€0.30).
+#
+# ⚠ Tooling not included: mug mould ~€2,500 + housing mould ~€4,000 =
+# €6,500 / 2,000 units = €3.25/unit. If amortised into COGS, total
+# becomes €14.83 – exceeds target. Treat as separate capex or increase MOQ.

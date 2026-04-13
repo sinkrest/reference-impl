@@ -1,0 +1,407 @@
+# Forkable Factory – Compliance as Code
+# Product: HeatMug USB-C (HM-001)
+# Derived from: spec.md Section 6, bom.yaml compliance fields, agent review findings
+#
+# This file makes regulatory compliance structured, traceable, and agent-readable.
+# Each directive maps to: what it requires, which components it applies to,
+# what evidence is needed, and current status.
+
+product_id: "HM-001"
+revision: "0.1"
+date: "2026-04-13"
+status: draft
+target_market: "EU (primary), US (stretch goal)"
+
+# ─────────────────────────────────────────────
+# EU MANDATORY DIRECTIVES
+# ─────────────────────────────────────────────
+
+directives:
+
+  - id: "CR-01"
+    name: "CE Marking"
+    directive: "Regulation (EC) No 765/2008"
+    scope: "EU Declaration of Conformity — umbrella requirement"
+    mandatory: true
+    market: "EU"
+    applies_to: "Whole product (system level)"
+    components: ["all"]
+    requirements:
+      - "EU Declaration of Conformity (DoC) signed by manufacturer"
+      - "CE mark affixed to product and packaging"
+      - "Technical file maintained and available for 10 years"
+      - "Authorised representative in EU (if manufacturer outside EU)"
+    evidence_needed:
+      - type: "document"
+        name: "EU Declaration of Conformity"
+        description: "Signed DoC listing all applicable directives"
+        status: not_started
+      - type: "label"
+        name: "CE marking on product"
+        description: "CE mark on base unit label (PKG-004) per 2008/765 dimensions"
+        status: not_started
+        component: "PKG-004"
+      - type: "document"
+        name: "Technical file"
+        description: "Complete technical documentation package"
+        status: not_started
+    depends_on: ["CR-02", "CR-03", "CR-04", "CR-05", "CR-06", "CR-07", "CR-10"]
+    notes: "CE marking is the final step — it requires all underlying directives to be satisfied first."
+    status: not_started
+
+  - id: "CR-02"
+    name: "Low Voltage Directive (LVD)"
+    directive: "EN 62368-1:2020 (Audio/video, IT and communication technology equipment)"
+    scope: "Safety of electrical equipment"
+    mandatory: true
+    market: "EU"
+    applies_to: "Base unit assembly (ASM-BASE)"
+    components:
+      - "BASE-010"  # PTC heater
+      - "BASE-011"  # PCB
+      - "BASE-012"  # MCU
+      - "BASE-013"  # PD controller
+      - "BASE-017"  # Thermal fuse
+      - "BASE-019"  # MOSFET
+      - "BASE-021"  # USB-C cable
+    requirements:
+      - "Product classified as IT equipment (USB-powered, not mains)"
+        # Note: EN 62368-1, not EN 60335 — because USB-C input, not mains
+      - "Single-fault condition analysis — thermal protection"
+      - "PTC heater self-regulation as primary thermal safeguard"
+      - "Thermal fuse (BASE-017, 85°C) as backup protection"
+      - "Cable bend test per IEC 62368-1 Clause 4.6"
+      - "Creepage and clearance distances verified on PCB"
+      - "Touch temperature limits verified (accessible surfaces)"
+    evidence_needed:
+      - type: "test_report"
+        name: "EN 62368-1 type test"
+        description: "Full type test by accredited lab (e.g., TÜV, SGS, Intertek)"
+        status: not_started
+        estimated_cost: "€3,000–5,000"
+        lead_time: "4–6 weeks"
+      - type: "test_report"
+        name: "Cable bend test"
+        description: "5,000 bend cycles at strain relief per Clause 4.6"
+        status: not_started
+        component: "BASE-021"
+      - type: "analysis"
+        name: "Single-fault thermal analysis"
+        description: "Document that PTC self-regulation + thermal fuse provides dual-layer protection"
+        status: not_started
+    open_items:
+      - "OI-04: Confirm EN 62368-1 classification with test lab (spec says IT equipment, verify)"
+    status: not_started
+
+  - id: "CR-03"
+    name: "Electromagnetic Compatibility (EMC)"
+    directive: "EN 55032:2015 (Emissions) + EN 55035:2017 (Immunity)"
+    scope: "Electromagnetic emissions and immunity"
+    mandatory: true
+    market: "EU"
+    applies_to: "Base unit assembly (ASM-BASE)"
+    components:
+      - "BASE-011"  # PCB
+      - "BASE-012"  # MCU (clock source)
+      - "BASE-019"  # MOSFET (PWM switching — primary emissions source)
+      - "BASE-021"  # USB-C cable (antenna)
+      - "BASE-018"  # TVS diodes (ESD immunity)
+    requirements:
+      - "Conducted emissions below EN 55032 Class B limits"
+      - "Radiated emissions below EN 55032 Class B limits"
+      - "ESD immunity per EN 55035 (±4kV contact, ±8kV air)"
+      - "Electrical fast transient (EFT) immunity"
+      - "Surge immunity"
+    evidence_needed:
+      - type: "test_report"
+        name: "EMC pre-compliance scan"
+        description: "Informal emissions scan before full certification"
+        status: not_started
+        estimated_cost: "€500–1,000"
+        lead_time: "1–2 weeks"
+      - type: "test_report"
+        name: "EN 55032/55035 full test"
+        description: "Accredited lab EMC certification"
+        status: not_started
+        estimated_cost: "€2,000–4,000"
+        lead_time: "3–5 weeks"
+    design_provisions:
+      # Flagged by agent review — these are MISSING from BOM
+      - component: "MISSING"
+        name: "Common-mode choke on USB-C input"
+        description: "Required to suppress conducted emissions from PWM switching"
+        estimated_cost: "€0.10"
+        status: not_in_bom
+      - component: "MISSING"
+        name: "Ferrite beads on heater power line"
+        description: "LC filter to suppress PWM switching noise"
+        estimated_cost: "€0.05"
+        status: not_in_bom
+      - component: "BASE-018"
+        name: "TVS diodes on USB-C data/CC lines"
+        description: "ESD protection — present in BOM"
+        status: in_bom
+      - component: "MISSING"
+        name: "VBUS TVS diode (20V+ clamp)"
+        description: "Separate ESD protection for VBUS line — flagged by agent review"
+        estimated_cost: "€0.05"
+        status: not_in_bom
+    notes: >
+      EMC is a system-level property, not component-level. PWM switching of the heater
+      MOSFET (BASE-019) is the primary emissions concern. Pre-compliance testing early
+      in prototyping is strongly recommended — EMC failures are expensive to fix late.
+    status: not_started
+
+  - id: "CR-04"
+    name: "Restriction of Hazardous Substances (RoHS)"
+    directive: "Directive 2011/65/EU + Delegated Directive 2015/863 (RoHS 3)"
+    scope: "Restricted substances in electrical/electronic equipment"
+    mandatory: true
+    market: "EU"
+    applies_to: "All components in ASM-BASE + electrical parts of ASM-MUG"
+    components:
+      - "all electrical"
+      - "MUG-002"  # Steel base plate (solder/coating)
+    requirements:
+      - "Lead (Pb) < 0.1% by weight in homogeneous materials"
+      - "Mercury (Hg) < 0.1%"
+      - "Cadmium (Cd) < 0.01%"
+      - "Hexavalent chromium (Cr6+) < 0.1%"
+      - "PBB < 0.1%"
+      - "PBDE < 0.1%"
+      - "DEHP, BBP, DBP, DIBP < 0.1% each (RoHS 3 phthalates)"
+    evidence_needed:
+      - type: "declaration"
+        name: "RoHS declarations from all suppliers"
+        description: "Each supplier provides RoHS compliance certificate"
+        status: partial
+        notes: "Most BOM components list RoHS. Need formal certificates."
+      - type: "test_report"
+        name: "XRF screening (optional)"
+        description: "X-ray fluorescence screening of finished product"
+        status: not_started
+        estimated_cost: "€200–500"
+    notes: "Standard electronic components from LCSC/JLCPCB are RoHS-compliant. Focus verification on custom parts: housing (BASE-001/002), cable (BASE-021)."
+    status: partial
+
+  - id: "CR-05"
+    name: "Registration, Evaluation, Authorisation and Restriction of Chemicals (REACH)"
+    directive: "Regulation (EC) No 1907/2006"
+    scope: "Chemical substances in products placed on EU market"
+    mandatory: true
+    market: "EU"
+    applies_to: "All components"
+    components: ["all"]
+    requirements:
+      - "No SVHC (Substance of Very High Concern) above 0.1% w/w in any article"
+      - "SCIP database notification if SVHC present above 0.1%"
+      - "Supplier communication obligation (SVHC info down supply chain)"
+    evidence_needed:
+      - type: "declaration"
+        name: "REACH/SVHC declarations from all suppliers"
+        description: "Written confirmation of SVHC status from each supplier"
+        status: partial
+        # Agent review flagged: many electronics components don't list REACH
+        notes: >
+          Agent review flagged: BASE-003, BASE-005, BASE-010 through BASE-022
+          do not list REACH compliance in BOM. Standard LCSC parts are typically
+          REACH-compliant but formal declarations needed.
+    notes: "REACH candidate list is updated twice per year. Check latest version before production."
+    status: partial
+
+  - id: "CR-06"
+    name: "Waste Electrical and Electronic Equipment (WEEE)"
+    directive: "Directive 2012/19/EU"
+    scope: "End-of-life recycling obligations for electrical equipment"
+    mandatory: true
+    market: "EU"
+    applies_to: "Whole product (system level)"
+    components:
+      - "PKG-004"  # Compliance label with WEEE symbol
+    requirements:
+      - "WEEE 'crossed-out wheelie bin' symbol on product"
+      - "Producer registration in each EU member state of sale"
+      - "Join or establish take-back/recycling scheme"
+      - "Report quantities placed on market annually"
+    evidence_needed:
+      - type: "label"
+        name: "WEEE symbol on product"
+        description: "Crossed-out wheelie bin on base unit label (PKG-004)"
+        status: planned
+        component: "PKG-004"
+      - type: "registration"
+        name: "WEEE producer registration"
+        description: "Register as producer in target EU markets"
+        status: not_started
+        notes: "Can use a compliance scheme (e.g., ERP, Landbell) to handle multi-country registration."
+    notes: "Registration is per-country. For initial launch, register in primary markets only (DE, DK, NL)."
+    status: not_started
+
+  - id: "CR-07"
+    name: "Food Contact Materials"
+    directive: "Regulation (EC) No 1935/2004 + (EU) No 10/2011 (plastics)"
+    scope: "Materials and articles intended to come into contact with food"
+    mandatory: true
+    market: "EU"
+    applies_to: "Mug assembly (ASM-MUG) + base unit top surface"
+    components:
+      - "MUG-001"  # Ceramic body — direct food contact
+      - "MUG-002"  # Steel base plate — direct food contact
+      - "MUG-003"  # Silicone adhesive — indirect food contact
+      - "BASE-004"  # Silicone pad — indirect contact (agent review flagged)
+    requirements:
+      - "Materials must not transfer constituents to food in dangerous quantities"
+      - "Migration testing per EN 1186 (ceramics) and EN 10/2011 (plastics)"
+      - "Declaration of Compliance from material suppliers"
+      - "Traceability of materials to source"
+    evidence_needed:
+      - type: "test_report"
+        name: "Ceramic migration test"
+        description: "Lead and cadmium migration test per 84/500/EEC"
+        status: not_started
+        estimated_cost: "€300–600"
+        component: "MUG-001"
+      - type: "test_report"
+        name: "Stainless steel migration test"
+        description: "Overall migration + specific migration (Ni, Cr) per EN 1186"
+        status: not_started
+        estimated_cost: "€200–400"
+        component: "MUG-002"
+      - type: "declaration"
+        name: "Silicone adhesive food contact declaration"
+        description: "Supplier DoC confirming food-grade silicone"
+        status: not_started
+        component: "MUG-003"
+      - type: "risk_assessment"
+        name: "Silicone pad indirect contact assessment"
+        description: "Document whether BASE-004 can transfer substances to mug base → drink"
+        status: not_started
+        component: "BASE-004"
+        notes: "Flagged by agent review. Indirect contact chain: pad → mug base → beverage."
+    notes: >
+      Ceramic and stainless steel 304 are well-established food-safe materials.
+      Migration testing is straightforward but mandatory. The silicone pad (BASE-004)
+      indirect contact needs a documented risk assessment.
+    status: not_started
+
+  - id: "CR-10"
+    name: "Packaging and Packaging Waste"
+    directive: "Directive 94/62/EC"
+    scope: "Environmental requirements for packaging"
+    mandatory: true
+    market: "EU"
+    applies_to: "Packaging assembly (ASM-PKG)"
+    components:
+      - "PKG-001"  # Retail box
+      - "PKG-002"  # Moulded pulp insert
+    requirements:
+      - "Packaging minimised to minimum adequate amount"
+      - "Heavy metals (Pb, Cd, Hg, Cr6+) below 100 ppm total in packaging"
+      - "Packaging designed for reuse or recovery"
+      - "Packaging producer registration in member states of sale"
+    evidence_needed:
+      - type: "declaration"
+        name: "Packaging heavy metals declaration"
+        description: "Supplier confirmation of heavy metal limits"
+        status: not_started
+      - type: "registration"
+        name: "Packaging producer registration"
+        description: "Register with packaging compliance scheme (e.g., Grüner Punkt)"
+        status: not_started
+    notes: "FSC-certified cardboard + recycled pulp insert already designed for compliance. Registration is the main action."
+    status: not_started
+
+# ─────────────────────────────────────────────
+# STRETCH GOALS (not mandatory for EU launch)
+# ─────────────────────────────────────────────
+
+  - id: "CR-08"
+    name: "USB-IF Compliance"
+    directive: "USB Implementers Forum specifications"
+    scope: "USB-C and Power Delivery protocol conformance"
+    mandatory: false
+    market: "Global"
+    applies_to: "USB-C interface"
+    components:
+      - "BASE-013"  # PD controller
+      - "BASE-021"  # USB-C cable
+    requirements:
+      - "USB-C connector meets USB-IF mechanical specs"
+      - "PD negotiation follows USB PD specification"
+      - "Cable meets USB-IF electrical specs"
+    evidence_needed:
+      - type: "test_report"
+        name: "USB-IF compliance test"
+        description: "Optional — validates interoperability but not legally required"
+        status: not_started
+        estimated_cost: "€5,000–10,000"
+    notes: "Expensive. Recommended for credibility but not required for EU market entry."
+    status: deferred
+
+  - id: "CR-09"
+    name: "FCC Part 15"
+    directive: "47 CFR Part 15"
+    scope: "Electromagnetic emissions (US market)"
+    mandatory: false
+    market: "US"
+    applies_to: "Base unit assembly"
+    components:
+      - "BASE-011"
+      - "BASE-012"
+      - "BASE-019"
+    requirements:
+      - "Unintentional radiator emissions below FCC Part 15 Class B limits"
+    evidence_needed:
+      - type: "test_report"
+        name: "FCC Part 15 test"
+        description: "EMC emissions test to FCC limits"
+        status: not_started
+        estimated_cost: "€2,000–3,000"
+    notes: "Stretch goal for US market. Similar test setup to EN 55032 — can be done in same lab session."
+    status: deferred
+
+# ─────────────────────────────────────────────
+# COMPLIANCE COST ESTIMATE
+# ─────────────────────────────────────────────
+# Testing                              | Estimated Cost
+# EN 62368-1 type test (LVD)           | €3,000–5,000
+# EN 55032/55035 (EMC)                 | €2,000–4,000
+# EMC pre-compliance scan              | €500–1,000
+# Food contact migration tests         | €500–1,000
+# RoHS XRF screening (optional)        | €200–500
+# ──────────────────────────────────────|──────────────
+# TOTAL (EU mandatory)                 | €6,200–11,500
+#
+# USB-IF (optional)                    | €5,000–10,000
+# FCC Part 15 (US stretch)             | €2,000–3,000
+#
+# Note: These are testing costs only. Does not include
+# WEEE/packaging registration fees or compliance scheme
+# membership (~€500–2,000/year depending on volume and markets).
+
+# ─────────────────────────────────────────────
+# COMPONENT → DIRECTIVE MATRIX
+# ─────────────────────────────────────────────
+# Shows which directives apply to each component.
+# An agent can parse this to verify BOM compliance fields are complete.
+#
+# Component   | LVD | EMC | RoHS | REACH | WEEE | Food | Pkg
+# MUG-001     |     |     |      |   ✓   |      |  ✓   |
+# MUG-002     |     |     |  ✓   |   ✓   |      |  ✓   |
+# MUG-003     |     |     |      |   ✓   |      |  ✓   |
+# BASE-001    |     |     |  ✓   |   ✓   |      |      |
+# BASE-002    |     |     |  ✓   |   ✓   |      |      |
+# BASE-003    |     |     |  ✓   |   ✓   |      |      |
+# BASE-004    |     |     |  ✓   |   ✓   |      |  ?   |
+# BASE-005    |     |     |  ✓   |   ✓   |      |      |
+# BASE-010    |  ✓  |     |  ✓   |   ✓   |      |      |
+# BASE-011    |  ✓  |  ✓  |  ✓   |   ✓   |      |      |
+# BASE-012    |  ✓  |  ✓  |  ✓   |   ✓   |      |      |
+# BASE-013    |  ✓  |     |  ✓   |   ✓   |      |      |
+# BASE-017    |  ✓  |     |  ✓   |   ✓   |      |      |
+# BASE-018    |     |  ✓  |  ✓   |   ✓   |      |      |
+# BASE-019    |  ✓  |  ✓  |  ✓   |   ✓   |      |      |
+# BASE-021    |  ✓  |  ✓  |  ✓   |   ✓   |      |      |
+# PKG-001     |     |     |      |       |      |      |  ✓
+# PKG-002     |     |     |      |       |      |      |  ✓
+# PKG-004     |     |     |      |       |  ✓   |      |

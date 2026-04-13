@@ -1,0 +1,604 @@
+# Forkable Factory – Stage-Gate as a State Machine
+# Product: HeatMug USB-C (HM-001)
+#
+# Traditional stage-gate, but structured so an agent can:
+# 1. Read this file + the repo artifacts
+# 2. Evaluate which gate criteria are met
+# 3. Report what's blocking the next stage
+# 4. Suggest actions to unblock
+#
+# Each gate is a set of verifiable conditions. Most reference
+# files already in the repo (spec.md, bom.yaml, compliance.yaml).
+# An agent doesn't need to understand ceramics — it needs to check
+# whether the right files exist, have the right fields, and are
+# in the right state.
+
+product_id: "HM-001"
+revision: "0.1"
+date: "2026-04-13"
+
+# ─────────────────────────────────────────────
+# CURRENT STATE
+# ─────────────────────────────────────────────
+current_stage: "concept"
+current_gate_status: "in_progress"
+# An agent evaluating this file should:
+# 1. Read the current_stage
+# 2. Check all gate criteria for that stage
+# 3. Report pass/fail for each criterion
+# 4. If all pass → recommend advancing to next stage
+
+# ─────────────────────────────────────────────
+# STAGES
+# ─────────────────────────────────────────────
+stages:
+
+  # ── STAGE 0: CONCEPT ──────────────────────
+  - id: "S0"
+    name: "Concept"
+    description: "Define the product, validate the idea is worth building"
+    status: in_progress
+
+    activities:
+      - "Write product specification"
+      - "Draft bill of materials with cost targets"
+      - "Identify regulatory requirements"
+      - "Estimate unit economics"
+      - "Define target user and market"
+
+    artifacts:
+      - file: "spec.md"
+        description: "Structured product specification"
+        status: complete
+      - file: "bom.yaml"
+        description: "Bill of materials with costs and suppliers"
+        status: complete
+      - file: "compliance.yaml"
+        description: "Regulatory requirements mapped to components"
+        status: complete
+
+    gate:
+      name: "Gate 0 → 1: Concept Approval"
+      description: "Is this product worth designing in detail?"
+      criteria:
+
+        - id: "G0-01"
+          name: "Spec exists and is complete"
+          check: "spec.md exists with sections 1–11 populated"
+          type: file_check
+          file: "spec.md"
+          status: pass
+
+        - id: "G0-02"
+          name: "BOM exists with cost estimate"
+          check: "bom.yaml exists with total COGS calculated"
+          type: file_check
+          file: "bom.yaml"
+          status: pass
+
+        - id: "G0-03"
+          name: "COGS within target"
+          check: "Total COGS ≤ €13.20 at MOQ 2,000"
+          type: value_check
+          file: "bom.yaml"
+          field: "TOTAL COGS"
+          target: "≤ 13.20"
+          actual: 11.58
+          unit: "EUR"
+          status: pass
+          notes: "€11.58 — €1.62 buffer. But tooling amortisation adds €3.25/unit."
+
+        - id: "G0-04"
+          name: "Gross margin viable"
+          check: "DTC gross margin ≥ 60%"
+          type: value_check
+          file: "spec.md"
+          field: "Gross margin (DTC)"
+          target: "≥ 60%"
+          actual: "~74%"
+          status: pass
+          notes: "Before shipping, marketing, returns. Drops to ~60% with tooling amortisation."
+
+        - id: "G0-05"
+          name: "Regulatory path identified"
+          check: "compliance.yaml exists with all mandatory directives listed"
+          type: file_check
+          file: "compliance.yaml"
+          status: pass
+          notes: "9 directives mapped. 7 mandatory EU + 2 stretch."
+
+        - id: "G0-06"
+          name: "Compliance cost estimated"
+          check: "Testing cost estimate exists in compliance.yaml"
+          type: value_check
+          file: "compliance.yaml"
+          field: "TOTAL (EU mandatory)"
+          target: "estimated"
+          actual: "€6,200–11,500"
+          status: pass
+          notes: "Significant fixed cost. Unit impact decreases with volume."
+
+        - id: "G0-07"
+          name: "No regulatory showstoppers"
+          check: "No directive has status: blocked or risk: critical"
+          type: field_check
+          file: "compliance.yaml"
+          condition: "no directive.status == 'blocked'"
+          status: pass
+          notes: "All directives are achievable. No battery (avoids UN38.3). No radio (avoids RED)."
+
+        - id: "G0-08"
+          name: "Target market defined"
+          check: "spec.md Section 1.3 specifies primary market"
+          type: field_check
+          file: "spec.md"
+          status: pass
+          notes: "EU primary, US stretch."
+
+        - id: "G0-09"
+          name: "Open items documented"
+          check: "spec.md Section 11 lists open items with owners"
+          type: file_check
+          file: "spec.md"
+          status: pass
+          notes: "6 open items listed. None are gate-blocking — all are design-phase work."
+
+      overall_status: pass
+      decision: "Concept approved. Product is feasible, economics work at MOQ 2,000+, regulatory path is clear. Proceed to Design."
+      decision_date: null
+      notes: >
+        The main risk is compliance testing cost (€6–12K) relative to
+        a 2,000-unit first run. This is a go/no-go at the investment
+        stage, not a concept viability issue.
+
+  # ── STAGE 1: DESIGN ───────────────────────
+  - id: "S1"
+    name: "Design"
+    description: "Detailed design — electrical, mechanical, industrial. Outputs are production-intent designs."
+    status: not_started
+
+    activities:
+      - "Schematic capture and PCB layout"
+      - "Mechanical CAD (mug mould, housing mould, assembly)"
+      - "Industrial design (appearance, UX of touch control + LED)"
+      - "Thermal simulation (PTC → aluminium → steel → liquid)"
+      - "Firmware architecture (MCU, PD negotiation, temp control loop)"
+      - "Resolve all open items from spec.md Section 11"
+      - "Update BOM with final component selections"
+
+    artifacts:
+      - file: "schematic.pdf"
+        description: "Electrical schematic"
+        status: not_started
+      - file: "pcb-layout.pdf"
+        description: "PCB layout (Gerber-ready)"
+        status: not_started
+      - file: "mechanical-cad/"
+        description: "3D CAD files for mug and base"
+        status: not_started
+      - file: "firmware/"
+        description: "MCU firmware source code"
+        status: not_started
+      - file: "thermal-analysis.md"
+        description: "Thermal simulation results"
+        status: not_started
+
+    gate:
+      name: "Gate 1 → 2: Design Review"
+      description: "Are the designs complete and ready for prototyping?"
+      criteria:
+
+        - id: "G1-01"
+          name: "Schematic complete and reviewed"
+          check: "schematic.pdf exists, peer-reviewed, no open comments"
+          type: file_check
+          file: "schematic.pdf"
+          status: not_started
+
+        - id: "G1-02"
+          name: "PCB layout complete"
+          check: "pcb-layout.pdf exists, DRC passed"
+          type: file_check
+          file: "pcb-layout.pdf"
+          status: not_started
+
+        - id: "G1-03"
+          name: "Mechanical CAD complete"
+          check: "3D models exist for mug body, base housing (top + bottom)"
+          type: file_check
+          file: "mechanical-cad/"
+          status: not_started
+
+        - id: "G1-04"
+          name: "Thermal analysis confirms spec"
+          check: "Simulation shows FR-01 (±2°C) and FR-03 (5 min reheat) are achievable"
+          type: value_check
+          file: "thermal-analysis.md"
+          status: not_started
+
+        - id: "G1-05"
+          name: "Firmware architecture defined"
+          check: "firmware/ contains at minimum: main loop, PD negotiation, temp control, LED driver"
+          type: file_check
+          file: "firmware/"
+          status: not_started
+
+        - id: "G1-06"
+          name: "BOM updated with final selections"
+          check: "bom.yaml revision incremented, all TBD components resolved"
+          type: field_check
+          file: "bom.yaml"
+          condition: "no component.supplier.name == 'TBD'"
+          status: not_started
+
+        - id: "G1-07"
+          name: "All spec open items resolved"
+          check: "spec.md Section 11 — all items status: closed"
+          type: field_check
+          file: "spec.md"
+          condition: "all open_items.status == 'closed'"
+          status: not_started
+
+        - id: "G1-08"
+          name: "EMC design provisions implemented"
+          check: "Common-mode choke, ferrite beads, VBUS TVS added to schematic and BOM"
+          type: field_check
+          file: "bom.yaml"
+          condition: "components include EMC filter parts flagged in compliance.yaml CR-03"
+          status: not_started
+          notes: "Agent review flagged 3 missing EMC components."
+
+      overall_status: not_started
+
+  # ── STAGE 2: PROTOTYPE ────────────────────
+  - id: "S2"
+    name: "Prototype"
+    description: "Build physical prototypes. First time the product exists in the real world."
+    status: not_started
+
+    activities:
+      - "Order PCBs + SMT assembly (JLCPCB)"
+      - "3D-print base housing (FDM for fit check, SLA for appearance)"
+      - "Order sample mug from ceramics supplier"
+      - "Assemble 3–5 prototype units"
+      - "Flash firmware, basic functional test"
+      - "EMC pre-compliance scan"
+
+    artifacts:
+      - file: "prototype-log.md"
+        description: "Build log for prototype assembly"
+        status: not_started
+      - file: "test-results/functional-test.md"
+        description: "Functional test results (heat, temp accuracy, PD negotiation)"
+        status: not_started
+      - file: "test-results/emc-prescan.md"
+        description: "EMC pre-compliance scan results"
+        status: not_started
+
+    gate:
+      name: "Gate 2 → 3: Prototype Review"
+      description: "Does the prototype work? Are there design issues that need fixing?"
+      criteria:
+
+        - id: "G2-01"
+          name: "Prototype functional"
+          check: "At least 1 unit heats to target temp and maintains ±2°C"
+          type: test_result
+          file: "test-results/functional-test.md"
+          status: not_started
+
+        - id: "G2-02"
+          name: "PD negotiation works"
+          check: "Prototype negotiates 9V/3A or 12V/2.25A from standard PD adapter"
+          type: test_result
+          file: "test-results/functional-test.md"
+          status: not_started
+
+        - id: "G2-03"
+          name: "Safety features verified"
+          check: "Auto-shutoff at 4h, mug-removed detection, thermal fuse position confirmed"
+          type: test_result
+          file: "test-results/functional-test.md"
+          status: not_started
+
+        - id: "G2-04"
+          name: "EMC pre-scan pass"
+          check: "No major emissions issues in pre-compliance scan"
+          type: test_result
+          file: "test-results/emc-prescan.md"
+          status: not_started
+          notes: "Fail here is expected and fixable. Major fail = redesign."
+
+        - id: "G2-05"
+          name: "Mechanical fit confirmed"
+          check: "Mug sits on base, heat transfer works, housing closes properly"
+          type: test_result
+          file: "prototype-log.md"
+          status: not_started
+
+        - id: "G2-06"
+          name: "No design-breaking issues"
+          check: "Issues log has no severity: critical items open"
+          type: field_check
+          file: "prototype-log.md"
+          condition: "no issue.severity == 'critical'"
+          status: not_started
+
+      overall_status: not_started
+
+  # ── STAGE 3: VALIDATE ─────────────────────
+  - id: "S3"
+    name: "Validate"
+    description: "Formal testing and certification. Third-party lab work. This is the expensive stage."
+    status: not_started
+
+    activities:
+      - "Submit to accredited lab for EN 62368-1 (LVD)"
+      - "Submit for EN 55032/55035 (EMC)"
+      - "Food contact migration testing (ceramic + steel)"
+      - "Cable bend test (5,000 cycles)"
+      - "RoHS verification (XRF screening or supplier certificates)"
+      - "REACH SVHC declarations from all suppliers"
+      - "Prepare technical file for CE marking"
+
+    artifacts:
+      - file: "test-results/lvd-report.pdf"
+        description: "EN 62368-1 type test report from accredited lab"
+        status: not_started
+      - file: "test-results/emc-report.pdf"
+        description: "EN 55032/55035 test report from accredited lab"
+        status: not_started
+      - file: "test-results/food-contact-report.pdf"
+        description: "Migration test reports for ceramic and steel"
+        status: not_started
+      - file: "technical-file/"
+        description: "Complete EU technical file for CE marking"
+        status: not_started
+
+    gate:
+      name: "Gate 3 → 4: Certification Gate"
+      description: "Has the product passed all mandatory certification tests?"
+      criteria:
+
+        - id: "G3-01"
+          name: "LVD test passed"
+          check: "EN 62368-1 test report status: pass"
+          type: test_result
+          file: "test-results/lvd-report.pdf"
+          status: not_started
+
+        - id: "G3-02"
+          name: "EMC test passed"
+          check: "EN 55032 + EN 55035 test reports status: pass"
+          type: test_result
+          file: "test-results/emc-report.pdf"
+          status: not_started
+
+        - id: "G3-03"
+          name: "Food contact tests passed"
+          check: "Migration tests for MUG-001, MUG-002 within limits"
+          type: test_result
+          file: "test-results/food-contact-report.pdf"
+          status: not_started
+
+        - id: "G3-04"
+          name: "RoHS compliance confirmed"
+          check: "All supplier RoHS certificates collected or XRF passed"
+          type: field_check
+          file: "compliance.yaml"
+          condition: "directive CR-04 status == 'pass'"
+          status: not_started
+
+        - id: "G3-05"
+          name: "REACH declarations collected"
+          check: "SVHC declarations from all suppliers on file"
+          type: field_check
+          file: "compliance.yaml"
+          condition: "directive CR-05 status == 'pass'"
+          status: not_started
+
+        - id: "G3-06"
+          name: "Technical file complete"
+          check: "technical-file/ contains DoC, test reports, design docs, risk assessment"
+          type: file_check
+          file: "technical-file/"
+          status: not_started
+
+        - id: "G3-07"
+          name: "CE Declaration of Conformity signed"
+          check: "DoC exists, signed, lists all applicable directives"
+          type: file_check
+          file: "technical-file/declaration-of-conformity.pdf"
+          status: not_started
+
+      overall_status: not_started
+      notes: >
+        This is the most expensive gate. Budget: €6,200–11,500 for testing.
+        Fail at this gate means redesign → re-prototype → re-test.
+        Pre-compliance scanning in Stage 2 is meant to catch issues early.
+
+  # ── STAGE 4: PRODUCTION ───────────────────
+  - id: "S4"
+    name: "Production"
+    description: "First production run. Tooling, factory setup, quality control."
+    status: not_started
+
+    activities:
+      - "Commission mug mould (~€2,500) and housing moulds (~€4,000)"
+      - "Production sample approval (golden samples)"
+      - "Define incoming QC inspection criteria"
+      - "Define outgoing QC inspection criteria (AQL)"
+      - "Place production order (MOQ 2,000)"
+      - "Arrange freight and customs (China → EU)"
+      - "Register WEEE producer in target markets"
+      - "Register packaging producer (Grüner Punkt or equivalent)"
+
+    artifacts:
+      - file: "production/golden-sample-approval.md"
+        description: "Approval of first-off production samples"
+        status: not_started
+      - file: "production/qc-criteria.yaml"
+        description: "Quality control inspection criteria"
+        status: not_started
+      - file: "production/weee-registration.md"
+        description: "WEEE producer registration confirmations"
+        status: not_started
+
+    gate:
+      name: "Gate 4 → 5: Production Release"
+      description: "Is the production run complete, inspected, and ready to ship?"
+      criteria:
+
+        - id: "G4-01"
+          name: "Golden samples approved"
+          check: "3 golden samples pass all functional + visual criteria"
+          type: test_result
+          file: "production/golden-sample-approval.md"
+          status: not_started
+
+        - id: "G4-02"
+          name: "Production QC passed"
+          check: "Batch QC inspection per AQL 2.5 — no critical defects, minor defects within limit"
+          type: test_result
+          file: "production/qc-criteria.yaml"
+          status: not_started
+
+        - id: "G4-03"
+          name: "WEEE registration complete"
+          check: "Producer registered in primary markets (DE, DK, NL)"
+          type: field_check
+          file: "compliance.yaml"
+          condition: "directive CR-06 status == 'pass'"
+          status: not_started
+
+        - id: "G4-04"
+          name: "Packaging registration complete"
+          check: "Packaging compliance scheme membership active"
+          type: field_check
+          file: "compliance.yaml"
+          condition: "directive CR-10 status == 'pass'"
+          status: not_started
+
+        - id: "G4-05"
+          name: "Units received and inspected"
+          check: "2,000 units received at EU warehouse, inbound inspection passed"
+          type: test_result
+          file: "production/qc-criteria.yaml"
+          status: not_started
+
+      overall_status: not_started
+
+  # ── STAGE 5: LAUNCH ───────────────────────
+  - id: "S5"
+    name: "Launch"
+    description: "Product goes on sale. Marketing, fulfilment, customer support."
+    status: not_started
+
+    activities:
+      - "Product listing live (DTC website)"
+      - "Fulfilment pipeline active (warehouse → customer)"
+      - "Customer support process defined"
+      - "Returns/warranty process defined"
+      - "Marketing launch (LinkedIn, communities, PR)"
+      - "Post-launch monitoring (returns, complaints, reviews)"
+
+    artifacts:
+      - file: "launch/launch-checklist.md"
+        description: "Launch readiness checklist"
+        status: not_started
+
+    gate:
+      name: "Gate 5: Post-Launch Review"
+      description: "30-day review. Is the product performing? Any field issues?"
+      criteria:
+
+        - id: "G5-01"
+          name: "Units sold"
+          check: "≥50 units sold in first 30 days"
+          type: value_check
+          target: "≥ 50"
+          status: not_started
+
+        - id: "G5-02"
+          name: "Return rate acceptable"
+          check: "Return rate ≤ 5% in first 30 days"
+          type: value_check
+          target: "≤ 5%"
+          status: not_started
+
+        - id: "G5-03"
+          name: "No safety incidents"
+          check: "Zero safety-related complaints or incidents"
+          type: value_check
+          target: "0"
+          status: not_started
+
+        - id: "G5-04"
+          name: "Customer feedback captured"
+          check: "Feedback log exists with ≥10 customer data points"
+          type: file_check
+          status: not_started
+
+      overall_status: not_started
+      notes: "This gate determines whether to proceed with a second production run or redesign."
+
+# ─────────────────────────────────────────────
+# STAGE TRANSITIONS
+# ─────────────────────────────────────────────
+# An agent evaluating this workflow should:
+#
+# 1. Read current_stage
+# 2. Find the corresponding stage in stages[]
+# 3. Evaluate each gate criterion:
+#    - file_check: does the file exist and have content?
+#    - value_check: does the value meet the target?
+#    - field_check: does the condition hold in the referenced file?
+#    - test_result: does the test report show pass?
+# 4. Report: "Gate X: Y/Z criteria passed. Blocking: [list]"
+# 5. If all pass: "Recommend advancing to Stage [next]"
+#
+# Transition rules:
+# - ALL criteria must pass to advance (no partial gates)
+# - A criterion can be waived by adding: waived: true, waiver_reason: "..."
+# - Waivers are tracked and must be reviewed at next gate
+# - Stages cannot be skipped (must be sequential)
+# - A stage can be re-entered if issues are found later (regression)
+
+transitions:
+  - from: "S0"
+    to: "S1"
+    gate: "Gate 0 → 1"
+    requires: "All G0-* criteria pass"
+  - from: "S1"
+    to: "S2"
+    gate: "Gate 1 → 2"
+    requires: "All G1-* criteria pass"
+  - from: "S2"
+    to: "S3"
+    gate: "Gate 2 → 3"
+    requires: "All G2-* criteria pass"
+  - from: "S3"
+    to: "S4"
+    gate: "Gate 3 → 4"
+    requires: "All G3-* criteria pass"
+  - from: "S4"
+    to: "S5"
+    gate: "Gate 4 → 5"
+    requires: "All G4-* criteria pass"
+
+# ─────────────────────────────────────────────
+# INVESTMENT SUMMARY BY STAGE
+# ─────────────────────────────────────────────
+# Stage     | Estimated Cost    | Commitment Level
+# S0        | €0 (time only)    | Low — paper exercise
+# S1        | €500–2,000        | Low — CAD tools, dev boards
+# S2        | €1,000–3,000      | Medium — PCBs, samples, 3D prints
+# S3        | €6,200–11,500     | High — lab testing, certification
+# S4        | €20,000–35,000    | High — tooling + first production run
+# S5        | €2,000–5,000      | Medium — marketing, fulfilment setup
+# ─────────────────────────────────────────────
+# TOTAL     | €30,000–57,000    | Full product launch
+#
+# The stage-gate structure exists precisely to prevent premature
+# commitment. Each gate is a "should we keep spending?" decision.
+# Kill the project at any gate if the economics don't work.

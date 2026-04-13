@@ -1,0 +1,1137 @@
+# Agent-Generated BOM — generated from spec.md only, no access to human bom.yaml
+
+product_id: HM-001
+revision: "0.1"
+date: "2026-04-13"
+status: draft
+currency: EUR
+notes: >
+  BOM for HeatMug USB-C at MOQ 2,000 units. All unit costs are estimates at MOQ 2,000.
+  Target total COGS per unit: €13.20 (mug €3.50, base unit €8.50, packaging €1.20).
+  Primary market EU; US compliance (FCC Part 15) is a stretch goal for v1.
+
+assemblies:
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # ASSEMBLY 1 — MUG
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: ASM-MUG
+    name: Heated Mug Assembly
+    description: >
+      Double-wall vacuum-insulated ceramic mug with integrated stainless steel
+      conductive base plate. Passive component — no electronics. Food contact
+      compliance applies to both ceramic body and base plate.
+    quantity: 1
+    components:
+
+      - id: MUG-001
+        name: Ceramic Mug Body
+        description: >
+          Double-wall vacuum-insulated stoneware mug body, matte white (RAL 9003),
+          D-shape handle. Outer wall and inner wall with vacuum gap. Top-rack
+          dishwasher safe. No electronics.
+        category: mechanical
+        quantity: 1
+        unit: pcs
+        material: Stoneware ceramic
+        specifications:
+          capacity: "350 ml ±10 ml"
+          height: "105 mm ±2 mm"
+          outer_diameter: "85 mm ±1 mm"
+          wall_thickness: "8 mm ±0.5 mm (double-wall with vacuum gap)"
+          colour: "Matte white, RAL 9003 or equivalent"
+          handle: "Integrated D-shape ceramic"
+          finish: "Unglazed exterior matte, food-safe glazed interior"
+          dishwasher_safe: "Yes, top rack"
+        supplier:
+          name: Jingdezhen Ceramic Mfg Co. (representative type)
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-SOURCE
+        unit_cost: 2.40
+        moq: 2000
+        lead_time_days: 60
+        compliance:
+          - "EU Food Contact — Regulation (EC) 1935/2004"
+          - "REACH — Regulation (EC) 1907/2006"
+          - "RoHS — Directive 2011/65/EU (passive, verify glaze)"
+        alternatives:
+          - name: Alternative ceramic mug supplier
+            supplier: Alibaba verified ceramic manufacturers
+            notes: Verify double-wall vacuum capability and MOQ at 2,000
+        notes: >
+          Mug body and base plate sourced together as a sub-assembly from same
+          ceramic manufacturer. Request food contact migration test report from supplier.
+
+      - id: MUG-002
+        name: Stainless Steel Conductive Base Plate
+        description: >
+          SS304 stainless steel disc, ground flat to ≤0.1 mm deviation. Bonded to
+          mug base during manufacture. Transfers heat from base unit heating surface
+          into mug. Food-safe; must survive 50+ dishwasher cycles without loosening.
+        category: mechanical
+        quantity: 1
+        unit: pcs
+        material: Stainless steel 304 (SS304)
+        specifications:
+          diameter: "70 mm ±0.5 mm"
+          thickness: "2 mm ±0.2 mm"
+          surface_flatness: "≤0.1 mm deviation across face"
+          surface_finish: "Ground flat, smooth contact face"
+          bonding: "Ceramic-grade adhesive or co-fired bond to mug base"
+          food_safe: "Yes — SS304 established food-safe material"
+        supplier:
+          name: Jingdezhen Ceramic Mfg Co. (representative type)
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.55
+        moq: 2000
+        lead_time_days: 60
+        compliance:
+          - "EU Food Contact — Regulation (EC) 1935/2004"
+          - "REACH — Regulation (EC) 1907/2006"
+          - "RoHS — Directive 2011/65/EU"
+        notes: >
+          Sourced with MUG-001 as integrated sub-assembly. Flatness tolerance
+          critical for thermal contact efficiency with base unit heating surface.
+
+      - id: MUG-003
+        name: Ceramic Adhesive / Bonding Agent
+        description: >
+          Food-safe, high-temperature ceramic-to-metal adhesive for bonding SS304
+          base plate to mug base. Must survive dishwasher thermal cycles.
+        category: mechanical
+        quantity: 0.002
+        unit: kg
+        material: Ceramic-compatible epoxy or ceramic cement
+        specifications:
+          temperature_rating: "≥200°C continuous"
+          dishwasher_cycles: "≥50 cycles without bond failure"
+          food_safe: "Yes — cured adhesive not in food contact zone"
+          cure: "Oven cure during mug manufacture"
+        supplier:
+          name: Contract ceramic manufacturer
+          type: contract_manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.05
+        moq: 2000
+        lead_time_days: 45
+        compliance:
+          - "REACH — Regulation (EC) 1907/2006"
+          - "RoHS — Directive 2011/65/EU"
+        notes: Applied during mug manufacture; cost included in MUG-001 assembly quote.
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # ASSEMBLY 2 — BASE UNIT
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: ASM-BASE
+    name: Base Unit Assembly
+    description: >
+      USB-C PD powered heating base with MCU controller, PTC ceramic heater,
+      NTC temperature sensor, RGB LED, capacitive touch button, USB-C PD
+      controller IC, thermal fuse, and integrated 1.2 m USB-C cable.
+      Classified as IT equipment under EN 62368-1 (USB-powered).
+    quantity: 1
+    components:
+
+      - id: BASE-001
+        name: ABS Housing — Top Shell
+        description: >
+          Injection-moulded ABS top housing half. UL94 V-0 flame rated.
+          Incorporates capacitive touch sensor window and LED diffuser aperture.
+          Circular, 110 mm diameter, 18 mm total assembled height.
+        category: mechanical
+        quantity: 1
+        unit: pcs
+        material: ABS plastic, UL94 V-0 flame rated
+        specifications:
+          diameter: "110 mm ±1 mm"
+          height_half: "~10 mm (top shell contribution)"
+          flame_rating: "UL94 V-0"
+          colour: "Matte white, RAL 9003"
+          feature_touch_window: "Capacitive touch area, 15 mm dia, no raised lip"
+          feature_led_aperture: "3 mm dia light pipe aperture for RGB LED"
+          surface: "Wipe-clean smooth finish (damp cloth compatible)"
+        supplier:
+          name: Chinese injection moulding contract manufacturer
+          type: contract_manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-TOOLING
+        unit_cost: 0.65
+        moq: 2000
+        lead_time_days: 75
+        compliance:
+          - "UL94 V-0 flame rating"
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        notes: >
+          Tooling cost ~€2,500–4,000 one-time; amortised over production runs.
+          Top and bottom shell sourced from same mould shop.
+
+      - id: BASE-002
+        name: ABS Housing — Bottom Shell
+        description: >
+          Injection-moulded ABS bottom housing half. UL94 V-0 flame rated.
+          Features 4x recessed silicone foot pads, cable strain relief gland,
+          and snap-fit or screw boss features for assembly.
+        category: mechanical
+        quantity: 1
+        unit: pcs
+        material: ABS plastic, UL94 V-0 flame rated
+        specifications:
+          diameter: "110 mm ±1 mm"
+          height_half: "~8 mm (bottom shell contribution)"
+          flame_rating: "UL94 V-0"
+          colour: "Matte white, RAL 9003"
+          feature_cable_exit: "Strain relief gland for 6 mm dia cable, bottom edge"
+          feature_foot_recesses: "4x circular recesses, 12 mm dia, for silicone feet"
+          assembly_method: "3x M2.5 self-tapping screw bosses or snap fit"
+        supplier:
+          name: Chinese injection moulding contract manufacturer
+          type: contract_manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-TOOLING
+        unit_cost: 0.60
+        moq: 2000
+        lead_time_days: 75
+        compliance:
+          - "UL94 V-0 flame rating"
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        notes: Tooling shared quote with BASE-001. One mould shop, two cavities.
+
+      - id: BASE-003
+        name: Aluminium Heating Plate
+        description: >
+          Machined aluminium disc, top surface of base unit. Transfers heat from
+          PTC heater below to mug base plate above. Houses NTC thermistor in
+          recessed pocket. Top surface covered with silicone rubber pad (BASE-004).
+        category: mechanical
+        quantity: 1
+        unit: pcs
+        material: Aluminium alloy 6061-T6
+        specifications:
+          diameter: "75 mm ±0.5 mm"
+          thickness: "4 mm ±0.2 mm"
+          surface_flatness: "≤0.1 mm across top face"
+          thermistor_pocket: "Ø4 mm x 3 mm deep, centre of plate"
+          finish: "Anodised or bare degreased"
+          thermal_conductivity: "~160 W/m·K"
+        supplier:
+          name: Aluminium parts machining supplier
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.55
+        moq: 2000
+        lead_time_days: 45
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        notes: >
+          Flatness tolerance critical for thermal contact. NTC thermistor
+          seated in pocket with thermal compound (BASE-011).
+
+      - id: BASE-004
+        name: Silicone Anti-Slip Top Pad
+        description: >
+          Silicone rubber pad, die-cut disc, applied over aluminium heating plate
+          top surface. Anti-slip, heat-resistant, food-safe contact surface.
+          Slight compressibility improves contact compliance with mug base plate.
+        category: mechanical
+        quantity: 1
+        unit: pcs
+        material: Silicone rubber, food-grade
+        specifications:
+          diameter: "72 mm ±0.5 mm"
+          thickness: "1.0 mm ±0.1 mm"
+          shore_hardness: "Shore A 40–50"
+          temperature_rating: "≥150°C continuous"
+          colour: "Light grey or translucent"
+          centre_hole: "4 mm dia (clears thermistor lead)"
+          adhesive_backing: "PSA one side for bonding to aluminium plate"
+        supplier:
+          name: Silicone die-cut parts supplier
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.08
+        moq: 5000
+        lead_time_days: 30
+        compliance:
+          - "EU Food Contact — Regulation (EC) 1935/2004 (surface contact)"
+          - "REACH — Regulation (EC) 1907/2006"
+          - "RoHS — Directive 2011/65/EU"
+
+      - id: BASE-005
+        name: PTC Ceramic Heater
+        description: >
+          Self-regulating PTC ceramic heating element. Max surface temperature
+          self-limited to ~80°C. 20W nominal at 12V DC. Disc form factor to bond
+          directly to underside of aluminium heating plate (BASE-003).
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: PTC ceramic (barium titanate based)
+        specifications:
+          power: "20W nominal"
+          voltage: "12V DC"
+          curie_temperature: "~80°C (self-limiting surface temp)"
+          form_factor: "Disc, Ø60–65 mm x 2–3 mm thick"
+          leads: "2x wire leads, 150 mm, 22 AWG, silicone insulated"
+          mounting: "Thermal adhesive bond to aluminium plate underside"
+        supplier:
+          name: PTC heater manufacturer (e.g., Shengye or equivalent)
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.90
+        moq: 2000
+        lead_time_days: 45
+        compliance:
+          - "CE Marking — LVD EN 62368-1:2020"
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        alternatives:
+          - name: Alternative PTC heater
+            supplier: Pelonis Technologies or equivalent
+            notes: Verify 12V, 20W, ~80°C Curie temp, disc form factor
+        notes: >
+          PTC self-regulation is primary thermal protection (CA-05 assumption).
+          Verify supplier datasheet for Curie temperature and power curve (OI-01).
+
+      - id: BASE-006
+        name: Thermal Fuse — 85°C One-Shot
+        description: >
+          Non-resettable thermal fuse, 85°C trip temperature. Inline on PTC heater
+          power circuit. Backup safety device — trips if PTC + MCU both fail and
+          temperature exceeds 85°C. Required for LVD fault condition compliance.
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: Metal/ceramic thermal fuse body
+        specifications:
+          trip_temperature: "85°C ±5°C"
+          rated_current: "≥5A"
+          rated_voltage: "≥15V DC"
+          type: "One-shot (non-resettable)"
+          package: "Axial lead, 2-wire"
+          lead_length: "25 mm minimum"
+        supplier:
+          name: Bourns or Vishay distributor
+          type: distributor
+          location: Europe / China
+          url: "https://www.mouser.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.08
+        moq: 2000
+        lead_time_days: 21
+        compliance:
+          - "CE Marking — LVD EN 62368-1:2020 (fault condition protection)"
+          - "RoHS — Directive 2011/65/EU"
+        alternatives:
+          - name: Uxcell or generic 85°C thermal fuse
+            supplier: LCSC or equivalent
+            notes: Verify trip temp accuracy and current rating from datasheet
+
+      - id: BASE-007
+        name: MCU — STM32G030 or Equivalent
+        description: >
+          Low-cost ARM Cortex-M0+ microcontroller. Controls heater PWM, reads NTC
+          thermistor via built-in ADC, drives RGB LED, reads capacitive touch sensor
+          input, implements 4-hour auto-shutoff timer, and manages mug detection logic.
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: Silicon IC
+        specifications:
+          core: "ARM Cortex-M0+"
+          flash: "≥16 KB"
+          ram: "≥4 KB"
+          adc: "12-bit, ≥2 channels (NTC + supply monitor)"
+          gpio: "≥8 I/O pins"
+          package: "TSSOP-20 or SOIC-20 or equivalent"
+          supply_voltage: "3.3V (regulated from 9V/12V input)"
+          operating_temp: "–40°C to +85°C"
+        supplier:
+          name: STMicroelectronics via distributor
+          type: distributor
+          location: Europe
+          url: "https://www.mouser.com"
+          part_number: STM32G030F6P6
+        unit_cost: 0.55
+        moq: 1000
+        lead_time_days: 21
+        compliance:
+          - "CE Marking — EMC EN 55032 / EN 55035"
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        alternatives:
+          - name: GD32E230 (GigaDevice)
+            supplier: LCSC
+            notes: Cortex-M23, pin-compatible alternative, lower cost
+          - name: CH32V003 (WCH)
+            supplier: LCSC
+            notes: RISC-V, very low cost, verify ADC accuracy
+        notes: >
+          Firmware not in scope of BOM. OI-02 to confirm availability and pricing.
+
+      - id: BASE-008
+        name: USB-C PD Controller IC — FUSB302 or Equivalent
+        description: >
+          USB-C Power Delivery protocol controller IC. Negotiates 9V/3A or 12V/2.25A
+          (27W) from USB-C PD source. Communicates with MCU via I2C. Required for
+          legal USB-C PD negotiation per USB-IF and CE compliance.
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: Silicon IC
+        specifications:
+          protocol: "USB PD 2.0/3.0"
+          interface: "I2C to MCU"
+          package: "QFN-24 or equivalent"
+          supported_profiles: "9V/3A (27W), 12V/2.25A (27W)"
+          supply_voltage: "3.3V"
+          operating_temp: "–40°C to +85°C"
+        supplier:
+          name: onsemi / FUSB302 distributor
+          type: distributor
+          location: Europe
+          url: "https://www.mouser.com"
+          part_number: FUSB302MPX
+        unit_cost: 0.45
+        moq: 1000
+        lead_time_days: 21
+        compliance:
+          - "USB-IF Compliance (USB-C PD protocol)"
+          - "CE Marking — LVD EN 62368-1:2020"
+          - "RoHS — Directive 2011/65/EU"
+        alternatives:
+          - name: CH224K (WCH)
+            supplier: LCSC
+            notes: Fixed-profile PD sink controller, lower cost, simpler firmware
+          - name: HUSB238
+            supplier: LCSC
+            notes: Standalone PD sink, no I2C needed, very low cost
+        notes: Verify OI-02 availability. CH224K may reduce BOM cost if profile flexibility not needed.
+
+      - id: BASE-009
+        name: NTC Thermistor — 100kΩ @ 25°C
+        description: >
+          NTC thermistor embedded in aluminium heating plate pocket. Reads surface
+          temperature of aluminium plate as proxy for mug base temperature.
+          Connected to MCU ADC input via voltage divider resistor (on PCB).
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: NTC thermistor bead, epoxy coated
+        specifications:
+          resistance_at_25c: "100kΩ ±1%"
+          beta_value: "~3950 K (25/85°C)"
+          package: "Bead with 2-wire leads, 100 mm leads"
+          operating_temp: "–40°C to +125°C"
+          response_time: "≤5 s in still air"
+        supplier:
+          name: Vishay or TDK via distributor
+          type: distributor
+          location: Europe
+          url: "https://www.mouser.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.07
+        moq: 2000
+        lead_time_days: 21
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        alternatives:
+          - name: Generic NTC 100k B3950
+            supplier: LCSC
+            notes: Much lower cost; verify B value accuracy with characterisation
+        notes: >
+          OI-06: Verify that NTC placement in aluminium plate gives accurate
+          liquid temperature reading. May require calibration offset in firmware.
+
+      - id: BASE-010
+        name: RGB LED — Common Anode
+        description: >
+          Single RGB LED, common anode. Provides visual feedback: amber (heating),
+          green (at target), off (standby). Driven by MCU GPIO through current-limiting
+          resistors. Mounted on PCB, light piped to top housing aperture.
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: GaAs/GaP LED die
+        specifications:
+          type: "RGB, common anode"
+          package: "5 mm through-hole or SMD 5050"
+          forward_voltage_red: "~2.0V"
+          forward_voltage_green: "~3.2V"
+          forward_voltage_blue: "~3.2V"
+          forward_current: "20 mA max per channel"
+          luminous_intensity: "≥800 mcd per channel at 20 mA"
+          viewing_angle: "≥120°"
+        supplier:
+          name: Everlight or Kingbright via distributor
+          type: distributor
+          location: China / Europe
+          url: "https://www.lcsc.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.04
+        moq: 5000
+        lead_time_days: 14
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        notes: >
+          Amber colour achieved by combining red + green channels in firmware.
+          Verify mixing ratio gives acceptable amber appearance through light pipe.
+
+      - id: BASE-011
+        name: Thermal Interface Compound
+        description: >
+          Thermal paste or phase-change pad applied between PTC heater and aluminium
+          plate underside, and between NTC thermistor and aluminium plate pocket.
+          Reduces contact thermal resistance.
+        category: mechanical
+        quantity: 0.002
+        unit: kg
+        material: Silicone-based thermal compound
+        specifications:
+          thermal_conductivity: "≥3.0 W/m·K"
+          temperature_range: "–50°C to +200°C"
+          application: "Applied during PCB/heater assembly"
+          quantity_per_unit: "~0.5 g per base unit"
+        supplier:
+          name: Dowsil / Shin-Etsu or equivalent
+          type: distributor
+          location: China / Europe
+          url: "https://www.mouser.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.02
+        moq: 2000
+        lead_time_days: 14
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+
+      - id: BASE-012
+        name: TVS Diode Array — ESD Protection on USB-C Lines
+        description: >
+          Transient voltage suppressor diode array for ESD protection on USB-C
+          VBUS, CC1, CC2, D+, D– lines. Required for CE EMC compliance and
+          USB-IF conformance.
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: Silicon TVS diode array
+        specifications:
+          channels: "≥5 channels (VBUS + 4 signal lines)"
+          standoff_voltage_vbus: "≥20V"
+          standoff_voltage_signal: "≥5.5V"
+          esd_protection: "IEC 61000-4-2 Level 4 (±8 kV contact)"
+          package: "SOT-363 or similar small SMD"
+        supplier:
+          name: Littelfuse or STMicro via distributor
+          type: distributor
+          location: Europe
+          url: "https://www.mouser.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.06
+        moq: 3000
+        lead_time_days: 21
+        compliance:
+          - "CE Marking — EMC EN 55035 (ESD immunity)"
+          - "RoHS — Directive 2011/65/EU"
+
+      - id: BASE-013
+        name: 3.3V LDO Voltage Regulator
+        description: >
+          Low-dropout linear regulator, converts 9V or 12V PD input to 3.3V for
+          MCU, PD controller, LED, and touch sensor logic supply.
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: Silicon IC
+        specifications:
+          output_voltage: "3.3V ±2%"
+          input_voltage: "5V to 15V"
+          output_current: "≥500 mA"
+          dropout_voltage: "≤0.5V at 500 mA"
+          package: "SOT-223 or TO-252"
+          quiescent_current: "≤100 µA (aids standby power ≤0.5W target)"
+        supplier:
+          name: Diodes Inc. or TI via distributor
+          type: distributor
+          location: Europe
+          url: "https://www.mouser.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.08
+        moq: 2000
+        lead_time_days: 14
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        notes: Consider switching regulator if efficiency improvement needed for standby target.
+
+      - id: BASE-014
+        name: N-Channel MOSFET — Heater PWM Switch
+        description: >
+          N-channel MOSFET for PWM switching of PTC heater power. Driven by MCU
+          GPIO. Must handle full 25W load current (up to ~2.8A at 9V).
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: Silicon MOSFET
+        specifications:
+          vds: "≥30V"
+          id_continuous: "≥5A"
+          rds_on: "≤50 mΩ at Vgs=10V"
+          package: "SOT-23 or DPAK"
+          gate_threshold: "≤3V (logic-level gate drive from 3.3V MCU)"
+        supplier:
+          name: Infineon or Vishay via distributor
+          type: distributor
+          location: Europe
+          url: "https://www.mouser.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.07
+        moq: 2000
+        lead_time_days: 14
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+
+      - id: BASE-015
+        name: PCB — Main Control Board
+        description: >
+          2-layer FR4 PCB, circular or rounded rectangular to fit inside 110 mm
+          housing. Carries MCU, PD controller, LDO regulator, MOSFET, TVS array,
+          NTC thermistor circuit, RGB LED, touch electrode, and all passives.
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: FR4 epoxy fibreglass, 1.6 mm, HASL or ENIG finish
+        specifications:
+          layers: "2"
+          dimensions: "Ø90 mm or 85 mm x 85 mm (to fit inside 110 mm housing)"
+          thickness: "1.6 mm"
+          copper_weight: "1 oz (35 µm)"
+          finish: "HASL lead-free or ENIG"
+          min_trace_width: "0.2 mm"
+          min_via_drill: "0.3 mm"
+          silkscreen: "Both sides"
+          solder_mask: "Green or white"
+        supplier:
+          name: JLCPCB or PCBWay
+          type: manufacturer
+          location: China
+          url: "https://www.jlcpcb.com"
+          part_number: TBD-GERBER
+        unit_cost: 0.35
+        moq: 2000
+        lead_time_days: 10
+        compliance:
+          - "RoHS — Directive 2011/65/EU (lead-free process)"
+          - "IPC-A-610 Class 2 workmanship"
+        notes: >
+          PCBA (PCB + assembly) quoted from contract manufacturer. Unit cost
+          here is bare PCB only. PCBA assembly labour included in BASE-020.
+
+      - id: BASE-016
+        name: Passive Components Kit (Resistors, Capacitors, Inductors)
+        description: >
+          SMD passive components: pull-up/pull-down resistors for NTC divider and
+          I2C lines, decoupling capacitors for MCU and ICs, bulk capacitors for
+          supply rails, gate resistor for MOSFET, current-limiting resistors for
+          LED channels. Estimated total ~30–40 passives per unit.
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: Ceramic capacitors (X5R/X7R), thick-film resistors, ferrite bead
+        specifications:
+          resistors: "0402 and 0603 SMD, E96 series values"
+          capacitors: "0402 and 0603 SMD, 10 nF–100 µF range"
+          voltage_ratings: "≥25V for supply rail caps"
+          led_resistors: "Sized for ~10 mA per channel at 3.3V"
+          ntc_divider: "100kΩ precision resistor for NTC voltage divider"
+        supplier:
+          name: YAGEO or Murata via LCSC
+          type: distributor
+          location: China
+          url: "https://www.lcsc.com"
+          part_number: TBD-BOMLINE
+        unit_cost: 0.25
+        moq: 2000
+        lead_time_days: 14
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        notes: Aggregate cost estimate for all passives. Detailed per-reference BOM in firmware/hardware design phase.
+
+      - id: BASE-017
+        name: Capacitive Touch Electrode
+        description: >
+          Single-point capacitive touch electrode (copper foil or PCB copper pad)
+          bonded or printed on PCB, positioned under top housing touch window area.
+          Connected to MCU capacitive touch input (hardware or software-based).
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: Copper foil or PCB copper pour
+        specifications:
+          type: "Single-point, self-capacitance"
+          electrode_diameter: "12–15 mm"
+          sensing_distance: "through 1–2 mm ABS housing"
+          interface: "MCU GPIO with software or hardware touch detection"
+        supplier:
+          name: Integrated on PCB (BASE-015)
+          type: manufacturer
+          location: China
+          url: "https://www.jlcpcb.com"
+          part_number: TBD-PCB-FEATURE
+        unit_cost: 0.00
+        moq: 2000
+        lead_time_days: 10
+        compliance:
+          - "CE Marking — EMC EN 55032 / EN 55035"
+          - "RoHS — Directive 2011/65/EU"
+        notes: Cost included in PCB (BASE-015). Touch electrode is a PCB copper feature, not a separate component.
+
+      - id: BASE-018
+        name: USB-C Cable — Integrated, 1.2 m
+        description: >
+          USB-C cable, 1.2 m, permanently attached to base unit housing via strain
+          relief. Non-detachable design simplifies compliance (no separate cable rating
+          needed). Must carry USB-C PD 27W (9V/3A or 12V/2.25A). Silicone or TPE jacket.
+          Rated for ≥5,000 bend cycles at strain relief per IEC 62368-1 Clause 4.6.
+        category: electrical
+        quantity: 1
+        unit: pcs
+        material: "Conductors: 24 AWG power, 28 AWG signal; Jacket: TPE or silicone"
+        specifications:
+          length: "1.2 m ±50 mm"
+          connector: "USB-C (Type-C) at user end; bare wire at PCB end"
+          conductor_power: "24 AWG, 2-wire (VBUS + GND)"
+          conductor_signal: "28 AWG (CC1, CC2, D+, D–)"
+          jacket: "TPE or silicone, flexible, 6 mm OD"
+          current_rating: "≥3A continuous"
+          voltage_rating: "≥20V"
+          bend_cycles: "≥5,000 at strain relief (IEC 62368-1 Clause 4.6)"
+          temperature_rating: "–20°C to +80°C"
+          strain_relief: "Integrated overmould at both ends"
+          usb_c_shell: "Stainless steel USB-C shell on user end"
+        supplier:
+          name: USB cable manufacturer (China, Alibaba)
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.55
+        moq: 2000
+        lead_time_days: 45
+        compliance:
+          - "CE Marking — LVD EN 62368-1:2020 (cable bend, Clause 4.6)"
+          - "USB-IF Compliance"
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        notes: >
+          Non-detachable (integrated) design confirmed per CA-01. Permanently bonded
+          into housing strain relief during assembly. USB-C connector end for user;
+          internal end terminates to PCB connector or solder pads.
+
+      - id: BASE-019
+        name: Silicone Anti-Slip Feet (x4)
+        description: >
+          Self-adhesive silicone rubber anti-slip pads, applied to base unit bottom.
+          4 pads per unit in recesses moulded into bottom housing (BASE-002).
+          Prevent base unit from sliding on desk surface.
+        category: mechanical
+        quantity: 4
+        unit: pcs
+        material: Silicone rubber
+        specifications:
+          diameter: "12 mm"
+          thickness: "2 mm ±0.3 mm"
+          shore_hardness: "Shore A 40"
+          colour: "Black or grey"
+          adhesive: "PSA backing for housing recess bonding"
+          temperature_rating: "≥100°C"
+        supplier:
+          name: Silicone parts die-cut supplier
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.02
+        moq: 10000
+        lead_time_days: 21
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+          - "REACH — Regulation (EC) 1907/2006"
+        notes: Unit cost is per pad; 4 pads = €0.08 per base unit.
+
+      - id: BASE-020
+        name: PCBA Assembly Labour
+        description: >
+          Contract manufacturing — SMT pick-and-place, reflow soldering, through-hole
+          assembly (thermal fuse, NTC leads, cable), functional test. Includes ICT or
+          FCT test fixture cost amortised at MOQ 2,000.
+        category: mechanical
+        quantity: 1
+        unit: pcs
+        material: Labour / service
+        specifications:
+          process: "SMT reflow + selective through-hole"
+          test: "Functional test: power on, LED, temperature preset cycle, auto-shutoff"
+          yield_target: "≥98% first pass"
+          programming: "MCU firmware flashing via SWD or UART bootloader"
+        supplier:
+          name: Chinese PCBA contract manufacturer (e.g., JLC Assembly or equivalent)
+          type: contract_manufacturer
+          location: China
+          url: "https://www.jlcpcb.com"
+          part_number: TBD-QUOTE
+        unit_cost: 1.10
+        moq: 2000
+        lead_time_days: 21
+        compliance:
+          - "IPC-A-610 Class 2 workmanship"
+          - "RoHS — Directive 2011/65/EU (lead-free solder)"
+        notes: >
+          Labour cost estimate at MOQ 2,000. Firmware flash included. Test fixture
+          NRE ~€500–1,500 one-time, amortised over production runs.
+
+      - id: BASE-021
+        name: Fasteners — M2.5 Self-Tapping Screws (x3)
+        description: >
+          M2.5 x 8 mm self-tapping pan-head screws for joining top and bottom
+          ABS housing shells. Torque to 0.3 N·m. Phillips or Torx drive.
+        category: fastener
+        quantity: 3
+        unit: pcs
+        material: Steel, zinc-plated
+        specifications:
+          size: "M2.5 x 8 mm"
+          type: "Self-tapping, pan head"
+          drive: "Phillips #1 or Torx T8"
+          finish: "Zinc plated"
+          torque: "0.3 N·m"
+        supplier:
+          name: Fastener distributor (Würth or local equivalent)
+          type: distributor
+          location: China / Europe
+          url: "https://www.lcsc.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.01
+        moq: 10000
+        lead_time_days: 14
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+        notes: >
+          3 screws per base unit. May substitute snap-fit design to eliminate
+          screws entirely — evaluate with tooling supplier (BASE-001/002).
+
+      - id: BASE-022
+        name: Light Pipe — LED to Housing
+        description: >
+          Clear PMMA or polycarbonate light pipe, press-fit or snap-fit into LED
+          aperture in top housing. Guides RGB LED output to visible indicator dot
+          on top surface of base unit.
+        category: mechanical
+        quantity: 1
+        unit: pcs
+        material: PMMA (acrylic) or polycarbonate, optical grade
+        specifications:
+          length: "~10–12 mm (PCB to housing surface)"
+          diameter: "3 mm ±0.1 mm"
+          optical_transmission: "≥90%"
+          fit: "Press-fit into housing aperture"
+        supplier:
+          name: Injection moulding supplier (same as housing)
+          type: contract_manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-TOOLING
+        unit_cost: 0.03
+        moq: 5000
+        lead_time_days: 45
+        compliance:
+          - "RoHS — Directive 2011/65/EU"
+        notes: Simple moulded part; may be co-quoted with housing tooling.
+
+      - id: BASE-023
+        name: Compliance Label — Base Unit
+        description: >
+          Printed adhesive label applied to base unit bottom. Contains CE mark,
+          WEEE symbol, manufacturer name, model number (HM-001), electrical ratings
+          (9V/3A or 12V/2.25A, 25W max), country of origin (China), and serial number
+          (or production batch code).
+        category: label
+        quantity: 1
+        unit: pcs
+        material: Polyester label with permanent adhesive
+        specifications:
+          size: "50 mm x 25 mm (or equivalent area)"
+          print: "Black text + CE/WEEE symbols on white background"
+          adhesive: "Permanent, ≥65°C rated"
+          durability: "Water resistant, smear proof after cure"
+          content: "CE, WEEE, manufacturer, model HM-001, 9V/3A~12V/2.25A 25W max, Made in China"
+        supplier:
+          name: Label printing supplier
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-ARTWORK
+        unit_cost: 0.03
+        moq: 5000
+        lead_time_days: 21
+        compliance:
+          - "CE Marking — required by LVD and EMC directives"
+          - "WEEE — Directive 2012/19/EU"
+          - "EN 62368-1:2020 marking requirements"
+        notes: Artwork to be finalised after industrial design phase (OI-05).
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # ASSEMBLY 3 — PACKAGING
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: ASM-PKG
+    name: Packaging Assembly
+    description: >
+      Retail packaging for HeatMug USB-C. FSC-certified corrugated cardboard box
+      with moulded paper pulp inserts. No EPS/styrofoam. Contains 1x mug,
+      1x base unit with cable, 1x quick start guide. Adapter explicitly excluded.
+    quantity: 1
+    components:
+
+      - id: PKG-001
+        name: Retail Outer Box
+        description: >
+          FSC-certified corrugated cardboard retail box, CMYK printed exterior,
+          uncoated interior. 4-colour exterior with product name, contents list,
+          compliance marks, EAN barcode, and "USB-C PD adapter required — not included"
+          callout. Sized to hold mug, base unit + cable, and pulp inserts.
+        category: packaging
+        quantity: 1
+        unit: pcs
+        material: FSC-certified corrugated cardboard (E-flute or B-flute), 350 gsm faces
+        specifications:
+          external_dimensions: "~140 mm x 140 mm x 140 mm (TBD with ID)"
+          flute: "E-flute single wall"
+          certification: "FSC Mix Credit or better"
+          print: "4-colour CMYK, outer surface only"
+          finish: "Uncoated matte laminate"
+          closure: "Tuck-end or auto-bottom with glue tab"
+          ean_barcode: "EAN-13, printed on side panel"
+          required_text: "USB-C PD adapter required (not included)"
+        supplier:
+          name: Cardboard packaging manufacturer
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-DIELINE
+        unit_cost: 0.45
+        moq: 2000
+        lead_time_days: 30
+        compliance:
+          - "Packaging Directive — EU 94/62/EC (FSC certified, recyclable)"
+          - "WEEE symbol on box"
+          - "CE mark on box"
+          - "EAN barcode registration required before production"
+        notes: >
+          Box dieline TBD pending industrial design finalisation (OI-05). EAN barcode
+          requires GS1 membership registration (~€120/year for small companies).
+
+      - id: PKG-002
+        name: Moulded Paper Pulp Insert — Mug Cradle
+        description: >
+          Moulded paper pulp tray to hold mug securely in retail box.
+          Custom-moulded to mug geometry. Recyclable, biodegradable.
+          No EPS/styrofoam (per spec section 8).
+        category: packaging
+        quantity: 1
+        unit: pcs
+        material: Moulded paper pulp (recycled fibre)
+        specifications:
+          fit: "Custom moulded to 85 mm OD mug with D-handle"
+          colour: "Natural grey/brown pulp"
+          thickness: "3–4 mm wall"
+          recyclable: "Yes — single material, paper fibre"
+          biodegradable: "Yes"
+        supplier:
+          name: Paper pulp packaging manufacturer
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-TOOL
+        unit_cost: 0.20
+        moq: 2000
+        lead_time_days: 45
+        compliance:
+          - "Packaging Directive — EU 94/62/EC"
+          - "FSC or recycled fibre certification preferred"
+        notes: Tooling NRE ~€800–1,500 one-time for custom mug cradle mould.
+
+      - id: PKG-003
+        name: Moulded Paper Pulp Insert — Base Unit Cradle
+        description: >
+          Moulded paper pulp tray to hold base unit securely in retail box.
+          Incorporates cable wrap feature to hold 1.2 m cable neatly.
+        category: packaging
+        quantity: 1
+        unit: pcs
+        material: Moulded paper pulp (recycled fibre)
+        specifications:
+          fit: "Custom moulded to 110 mm dia x 18 mm base unit + cable wrap channel"
+          colour: "Natural grey/brown pulp"
+          thickness: "3–4 mm wall"
+          recyclable: "Yes"
+          biodegradable: "Yes"
+        supplier:
+          name: Paper pulp packaging manufacturer
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-TOOL
+        unit_cost: 0.20
+        moq: 2000
+        lead_time_days: 45
+        compliance:
+          - "Packaging Directive — EU 94/62/EC"
+        notes: Same supplier as PKG-002. Co-tool both inserts to reduce NRE.
+
+      - id: PKG-004
+        name: Quick Start Guide
+        description: >
+          Single A5 sheet, folded to A6, 4-colour printed both sides.
+          Content: temperature preset instructions, safety warnings (4-hour auto-shutoff,
+          USB-C PD adapter required), WEEE disposal symbol, manufacturer contact,
+          CE declaration summary, and URL for full manual / support.
+          Languages: English + German + French minimum (EU market).
+        category: document
+        quantity: 1
+        unit: pcs
+        material: 115 gsm coated paper, FSC certified
+        specifications:
+          unfolded_size: "A5 (148 mm x 210 mm)"
+          folded_size: "A6 (105 mm x 148 mm)"
+          print: "4-colour CMYK both sides"
+          languages: "English, German, French (minimum); Italian, Spanish TBD"
+          paper_weight: "115 gsm"
+          certification: "FSC certified paper"
+        supplier:
+          name: Print-on-demand or bulk print supplier
+          type: manufacturer
+          location: China / Europe
+          url: "https://www.alibaba.com"
+          part_number: TBD-ARTWORK
+        unit_cost: 0.08
+        moq: 2000
+        lead_time_days: 21
+        compliance:
+          - "CE Marking — DoC summary and EU importer contact required"
+          - "WEEE — Directive 2012/19/EU (disposal instructions)"
+          - "EN 62368-1:2020 — safety warnings in local languages"
+          - "Packaging Directive — EU 94/62/EC (FSC paper)"
+        notes: >
+          Full Declaration of Conformity (DoC) must be available online (URL on QSG).
+          DoC itself does not need to be printed in full inside box.
+
+      - id: PKG-005
+        name: Outer Box Label / EAN Sticker
+        description: >
+          EAN-13 barcode label for retail scanning, if not printed directly on box.
+          Also serves as production batch traceability label on box exterior.
+          May be combined with box print (PKG-001) to eliminate separate label.
+        category: label
+        quantity: 1
+        unit: pcs
+        material: Paper label, permanent adhesive
+        specifications:
+          barcode: "EAN-13"
+          size: "40 mm x 25 mm"
+          print: "Black barcode + human-readable digits on white"
+          adhesive: "Permanent"
+        supplier:
+          name: Label printing supplier
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-ARTWORK
+        unit_cost: 0.01
+        moq: 5000
+        lead_time_days: 14
+        compliance:
+          - "GS1 EAN-13 standard (requires GS1 membership)"
+        notes: >
+          Preferred approach: print EAN directly on PKG-001 box to eliminate this SKU.
+          Keep as fallback if box print quality is insufficient for scanner reads.
+
+      - id: PKG-006
+        name: Tissue / Wrap Paper
+        description: >
+          Unbleached kraft tissue paper for wrapping mug before placing in pulp cradle.
+          Aesthetic and minor surface protection function.
+        category: packaging
+        quantity: 1
+        unit: pcs
+        material: Unbleached kraft tissue paper, 25–30 gsm
+        specifications:
+          sheet_size: "400 mm x 400 mm"
+          weight: "25–30 gsm"
+          colour: "Natural kraft (unbleached)"
+          recyclable: "Yes"
+        supplier:
+          name: Tissue paper supplier
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-SOURCE
+        unit_cost: 0.01
+        moq: 10000
+        lead_time_days: 14
+        compliance:
+          - "Packaging Directive — EU 94/62/EC"
+        notes: Optional — evaluate if premium feel justifies €0.01 cost at packaging review.
+
+      - id: PKG-007
+        name: Shipping Carton (Master Carton)
+        description: >
+          Double-wall corrugated cardboard master carton for shipping 12 or 24 retail
+          units per carton. For DTC fulfilment, single retail box is shipped inside a
+          plain corrugate mailer. Master carton for wholesale/retailer bulk shipments.
+        category: packaging
+        quantity: 0.083
+        unit: pcs
+        material: Double-wall corrugated cardboard, 32 ECT minimum
+        specifications:
+          pack_count: "12 or 24 retail units per master carton"
+          construction: "RSC (Regular Slotted Container)"
+          print: "Plain brown with product ID, quantity, country of origin"
+          stacking_strength: "≥400 kg"
+          certification: "FSC preferred"
+        supplier:
+          name: Corrugated box manufacturer
+          type: manufacturer
+          location: China
+          url: "https://www.alibaba.com"
+          part_number: TBD-DIELINE
+        unit_cost: 0.14
+        moq: 500
+        lead_time_days: 21
+        compliance:
+          - "ISPM 15 (if wood pallet used for shipping)"
+          - "Packaging Directive — EU 94/62/EC"
+        notes: >
+          Cost expressed per retail unit (1/12 of master carton cost). DTC mailer
+          box (single-unit shipping) not included here — fulfilment centre typically
+          supplies. Evaluate if DTC mailer needed as separate SKU.
