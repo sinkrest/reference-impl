@@ -141,7 +141,7 @@ This repo was built one slice per week, in public.
 
 - Blog: [The Forkable Factory](https://romanmartins.com/blog/the-forkable-factory)
 - LinkedIn: [Roman Martins](https://www.linkedin.com/in/romanmartins/)
-- GitHub org: [github.com/forkable-factory](https://github.com/forkable-factory)
+- GitHub org: [github.com/sinkrest](https://github.com/sinkrest)
 
 If you build something with this, I'd love to know. Open an issue or find me on LinkedIn.
 
